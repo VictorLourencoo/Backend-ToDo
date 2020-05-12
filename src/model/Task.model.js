@@ -1,6 +1,6 @@
 const mongoose = require('../config/database');
-const Schema = mongoose.Schema;
-const TaskSchema = new Schema({
+
+const TaskSchema = new mongoose.Schema({
   macaddress: {
     type: String,
     required: true,
