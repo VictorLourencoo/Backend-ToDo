@@ -20,10 +20,21 @@ const TaskValidation = async (req, res, next) => {
     return res.status(400).json({ error: 'Escolha uma data e hora futura' });
   } else {
     let exists;
-    exists = await TaskModel.findOne({
-      when: { $eq: new Date(when) },
-      macaddress: { $in: macaddress },
-    });
+    //procure por id com a mesma data e hora, que tenha esse mac,
+    //mais que seja com _id diferente do passado nos params.
+    //para conseguir fazer o update
+    if (req.params.id) {
+      exists = await TaskModel.findOne({
+        _id: { $ne: req.params.id },
+        when: { $eq: new Date(when) },
+        macaddress: { $in: macaddress },
+      });
+    } else {
+      exists = await TaskModel.findOne({
+        when: { $eq: new Date(when) },
+        macaddress: { $in: macaddress },
+      });
+    }
     if (exists) {
       return res
         .status(400)
