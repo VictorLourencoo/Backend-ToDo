@@ -1,4 +1,6 @@
 const TaskModel = require('../model/Task.model');
+//Hora atual
+const current = new Date();
 
 class TaskController {
   async create(req, res) {
@@ -49,9 +51,9 @@ class TaskController {
         }
       })
       .catch((error) => {
+        console.log(current);
         console.log(error);
-
-        return res.status(400).json(error, 'erro na busca da tarefa');
+        return res.status(400).json(error);
       });
   }
 
@@ -71,6 +73,21 @@ class TaskController {
       { done: req.params.done },
       { new: true }
     )
+      .then((response) => {
+        return res.status(200).json(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        return res.status(500).json(error);
+      });
+  }
+
+  async late(req, res) {
+    await TaskModel.find({
+      when: { $lt: current },
+      macaddress: { $in: req.body.macaddress },
+    })
+      .sort('when')
       .then((response) => {
         return res.status(200).json(response);
       })
