@@ -4,6 +4,11 @@ const routes = express.Router();
 
 const TaskController = require('../controller/Task.controller');
 
-routes.post('/', TaskController.create);
+const TaskValidation = require('../middlewares/Task.validation');
+const MacAddressValidation = require('../middlewares/Macaddress.Validation');
 
+routes.post('/', TaskValidation, TaskController.create);
+routes.put('/:id', TaskValidation, TaskController.update);
+routes.get('/all', MacAddressValidation, TaskController.all);
+routes.get('/:id', TaskController.show);
 module.exports = routes;
