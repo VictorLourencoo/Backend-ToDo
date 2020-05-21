@@ -16,8 +16,9 @@ routes.delete('/:id', TaskController.delete);
 
 //lists tasks
 routes.get('/:id', TaskController.show);
-routes.get('/filter/all/:mac', TaskController.all);
 routes.get('/filter/late/:mac', TaskController.late);
+
+routes.get('/filter/all/:mac', TaskController.all);
 routes.get('/filter/today/:mac', TaskController.today);
 routes.get('/filter/week/:mac', TaskController.week);
 routes.get('/filter/month/:mac', TaskController.month);
